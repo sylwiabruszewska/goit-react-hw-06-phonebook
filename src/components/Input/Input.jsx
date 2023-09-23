@@ -13,12 +13,10 @@ export const Input = props => {
     }
   };
 
-  const { label, type, name, pattern, title, placeholder, required, value } =
-    props;
+  const { type, name, pattern, title, placeholder, required, value } = props;
 
   return (
-    <label>
-      {label}
+    <>
       <StyledInput
         type={type}
         name={name}
@@ -30,12 +28,11 @@ export const Input = props => {
         onChange={onChange}
       />
       <ErrorMessage>{title}</ErrorMessage>
-    </label>
+    </>
   );
 };
 
 Input.propTypes = {
-  label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   pattern: PropTypes.string.isRequired,

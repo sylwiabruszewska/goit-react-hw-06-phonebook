@@ -6,6 +6,7 @@ import {
   ContactForm,
   ContactList,
   FilterInput,
+  InputField,
 } from './components/index';
 
 import { nanoid } from 'nanoid';
@@ -83,11 +84,9 @@ export const App = () => {
       <h1>Phonebook</h1>
       <ContactForm handleAddNewContact={addNewContact} />
       <Section title="Contacts">
-        <FilterInput
-          label="Find contacts by name"
-          value={filter}
-          onChange={handleFilterChange}
-        />
+        <InputField label="Find contacts by name">
+          <FilterInput value={filter} onChange={handleFilterChange} />
+        </InputField>
         <ContactList contacts={filteredContacts} handleDelete={removeContact} />
       </Section>
     </Container>

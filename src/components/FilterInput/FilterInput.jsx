@@ -1,23 +1,19 @@
 import PropTypes from 'prop-types';
 import { StyledFilterInput } from './FilterInput.styled';
 
-export const FilterInput = ({ label, value, onChange }) => {
+export const FilterInput = ({ value, onChange }) => {
   return (
-    <label>
-      {label}
-      <StyledFilterInput
-        type="text"
-        name="filter"
-        placeholder="Search by name"
-        value={value}
-        onChange={onChange}
-      />
-    </label>
+    <StyledFilterInput
+      type="text"
+      name="filter"
+      placeholder="Search by name"
+      value={value}
+      onChange={onChange}
+    />
   );
 };
 
 FilterInput.propTypes = {
-  label: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
