@@ -3,7 +3,7 @@ import { Button, Input, InputField } from 'components';
 import Notiflix from 'notiflix';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/slices/contactsSlice';
 import { getContacts } from 'redux/selectors';
 
 export const ContactForm = () => {
