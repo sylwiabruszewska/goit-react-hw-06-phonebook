@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { addContact, deleteContact, setFilter } from './actions';
 
 const contactsInitialState = {
   contacts: [
@@ -7,11 +7,14 @@ const contactsInitialState = {
   ],
 };
 
-const contactReducer = (state = contactsInitialState.contacts, action) => {
+export const contactReducer = (
+  state = contactsInitialState.contacts,
+  action
+) => {
   switch (action.type) {
-    case 'contacts/addContact':
+    case addContact.type:
       return [...state, action.payload];
-    case 'contacts/deleteContact':
+    case deleteContact.type:
       return state.filter(contact => contact.id !== action.payload);
     default:
       return state;
@@ -22,16 +25,11 @@ const filterInitialState = {
   filter: '',
 };
 
-const filterReducer = (state = filterInitialState.filter, action) => {
+export const filterReducer = (state = filterInitialState.filter, action) => {
   switch (action.type) {
-    case 'filter/setFilter':
+    case setFilter.type:
       return (state = action.payload);
     default:
       return state;
   }
 };
-
-export const rootReducer = combineReducers({
-  contacts: contactReducer,
-  filter: filterReducer,
-});
