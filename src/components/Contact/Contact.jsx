@@ -1,11 +1,25 @@
-import PropTypes from 'prop-types';
-
 import { StyledItem, StyledBox, StyledIcon } from './Contact.styled';
 import { faUser, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { Button } from 'components';
+import Notiflix from 'notiflix';
 
-import { Button } from '../index';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact } from 'redux/actions';
+import { getContacts } from 'redux/selectors';
 
-export const Contact = ({ id, name, number, handleDelete }) => {
+export const Contact = ({ id, name, number }) => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+
+  const handleDelete = () => {
+    const contactToDelete = contacts.find(contact => contact.id === id);
+
+    if (contactToDelete) {
+      dispatch(deleteContact(id));
+      Notiflix.Notify.success(`${contactToDelete.name} has been removed`);
+    }
+  };
+
   return (
     <StyledItem>
       <StyledBox>
@@ -26,10 +40,4 @@ export const Contact = ({ id, name, number, handleDelete }) => {
       </Button>
     </StyledItem>
   );
-};
-
-Contact.propTypes = {
-  name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
-  handleDelete: PropTypes.func.isRequired,
 };

@@ -1,19 +1,22 @@
-import PropTypes from 'prop-types';
 import { StyledFilterInput } from './FilterInput.styled';
 
-export const FilterInput = ({ value, onChange }) => {
+import { useDispatch } from 'react-redux';
+import { setFilter } from 'redux/actions';
+
+export const FilterInput = () => {
+  const dispatch = useDispatch();
+
+  const handleFilterChange = event => {
+    const newFilter = event.target.value;
+    dispatch(setFilter(newFilter));
+  };
+
   return (
     <StyledFilterInput
       type="text"
       name="filter"
       placeholder="Search by name"
-      value={value}
-      onChange={onChange}
+      onChange={handleFilterChange}
     />
   );
-};
-
-FilterInput.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
 };

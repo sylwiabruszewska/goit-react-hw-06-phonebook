@@ -1,27 +1,35 @@
-import { useState } from 'react';
-
-import PropTypes from 'prop-types';
 import { StyledForm } from './ContactForm.styled';
-
 import { Button, Input, InputField } from 'components';
+import Notiflix from 'notiflix';
 
-export const ContactForm = props => {
-  const [contactData, setContactData] = useState({
-    name: '',
-    number: '',
-  });
+import { useSelector, useDispatch } from 'react-redux';
+import { addContact } from 'redux/actions';
+import { getContacts } from 'redux/selectors';
 
-  const onChange = ({ inputName, inputValue }) => {
-    setContactData(contactData => ({
-      ...contactData,
-      [inputName]: inputValue,
-    }));
+export const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+
+  const handleAddContact = ({ name, number }) => {
+    const isContactExists = contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (!isContactExists) {
+      dispatch(addContact(name, number));
+      Notiflix.Notify.success(`Contact ${name} added successfully`);
+    } else {
+      Notiflix.Notify.warning(`${name} is already in contacts`);
+    }
   };
 
   const onSubmit = event => {
     event.preventDefault();
-    props.handleAddNewContact(contactData);
-    setContactData({ name: '', number: '' });
+    const form = event.target;
+    const name = form.elements.name.value;
+    const number = form.elements.number.value;
+    handleAddContact({ name, number });
+    form.reset();
   };
 
   return (
@@ -33,8 +41,6 @@ export const ContactForm = props => {
           pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           placeholder="Name"
-          value={contactData.name}
-          onChange={onChange}
           required
         />
       </InputField>
@@ -46,8 +52,6 @@ export const ContactForm = props => {
           pattern="\+?\d{1,4}?[\-.\s]?\(?\d{1,3}?\)?[\-.\s]?\d{1,4}[\-.\s]?\d{1,4}[\-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with+"
           placeholder="Number"
-          value={contactData.number}
-          onChange={onChange}
           required
         />
       </InputField>
@@ -55,8 +59,4 @@ export const ContactForm = props => {
       <Button type="submit">Add contact</Button>
     </StyledForm>
   );
-};
-
-ContactForm.propTypes = {
-  handleAddNewContact: PropTypes.func.isRequired,
 };
